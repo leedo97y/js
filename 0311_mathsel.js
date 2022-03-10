@@ -59,3 +59,30 @@ console.log(result_4); // 3.1
 // %=
 result_5 %= num;
 console.log(result_5); // 1
+
+
+// 증가, 감소 연산자
+let num_s, result;
+
+num_s = 10;
+result = num_s++;
+console.log(num_s); // 11
+console.log(result); // 10
+
+num_s = 10;
+result = ++num_s;
+console.log(num_s); // 11
+console.log(result); // 11
+
+num_s = 10;
+result = num_s--; 
+console.log(num_s); // 9
+console.log(result); // 10
+
+num_s = 10;
+result = --num_s; 
+console.log(num_s); // 9
+console.log(result); // 9
+// 그 행에서 바로 증감이 반영된 값을 보고싶다면
+// 연산자를 피연산자 앞에 써주자 ! 
+// 예) ++num, --num
