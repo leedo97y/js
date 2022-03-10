@@ -11,9 +11,10 @@
 
     <section>section</section>
     <div>div</div>
-    <p>hi this is a test. hi this is a test.
-hi this is a test. hi this is a test.
-hi this is a test. </p>
+    <p>hi this is a test. <span>this is a test.</span> 
+    hi this is a test. hi this is a test.
+    hi this is a test. this is a<strong> test.</strong> 
+    hi this is a test. </p>
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQIhKtirrOwjAhq5EV6s39MomaHzjktEKnQw&usqp=CAU" alt="알갱이">
     <!-- alt 이미지 설명해주는 것임. 
         의미 없는 데코 용은 빈값으로 줘도 됨-->
@@ -33,6 +34,8 @@ hi this is a test. </p>
         <li>2</li>
         <li>3</li>
     </ol>
+
+    <h1>제목</h1> 
 
     <!-- input의 id를 input으로 지정한 후, label을 붙여준다. for 이용해서 -->
     <label for="input">아이디</label>    
@@ -59,6 +62,24 @@ hi this is a test. </p>
     <!-- 중요) 아이디 값을 지정하지 않으면, 
         글씨를 눌러도 체크 되지 않는다. -->
 
+
+    <!-- 
+        h1 : block
+        section, div : block
+
+        span, strong : inline
+        p : block
+
+        input, label : inline
+        button, a, img : inline
+        * img는 기본적으로 inline 요소, 
+        block 요소로 CSS 이용해서 바꿀 수 있음.
+
+        ul, li, ol : block
+
+     -->
+
     
+
 </body>
 </html>
