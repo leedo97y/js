@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- !랑 탭키 누르면 기본 코드 짜짐 -->
+
+    <section>section</section>
+    <div>div</div>
+    <p>hi this is a test. hi this is a test.
+hi this is a test. hi this is a test.
+hi this is a test. </p>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQIhKtirrOwjAhq5EV6s39MomaHzjktEKnQw&usqp=CAU" alt="알갱이">
+    <!-- alt 이미지 설명해주는 것임. 
+        의미 없는 데코 용은 빈값으로 줘도 됨-->
+    <a href="https://www.google.com/?&bih=714&biw=1536&hl=ko" target="_blank">링크</a>
+    <!-- target="_blank" -> 새 창으로 바꿔서 띄워줌 -->
+    <button>버튼</button>
+
+    <!-- 순서가 없는 리스트 / 불렛 포인트로 찍혀서 나옴-->
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+    <!-- 순서 매겨지는 리스트 / 앞에 숫자 붙어서 나옴 -->
+    <ol>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ol>
+
+    <!-- input의 id를 input으로 지정한 후, label을 붙여준다. for 이용해서 -->
+    <label for="input">아이디</label>    
+    <input type="text" placeholder="아이디를 입력해주세요" id="input">
+
+    <!-- radio 만들기 type을 radio로 지정 -->
+    <!-- radio 두개 다 체크 되면 안될때는 
+        name 이용해서 그룹지정 -->
+    <input type="radio" id="female" name="gender">
+    <label for="female">여자</label>
+    
+    <input type="radio" id="male" name="gender">
+    <label for="male">남자</label>
+
+    <!-- 개행을 위한 태그 / 한 줄 띄우고 싶을때 -->
+    <br> 
+
+    <input type="checkbox" id="chk">
+    <label for="chk">귤</label>
+    <input type="checkbox" id="chk2">
+    <label for="chk2">포도</label>
+    <input type="checkbox" id="chk3">
+    <label for="chk3">수박</label>
+    <!-- 중요) 아이디 값을 지정하지 않으면, 
+        글씨를 눌러도 체크 되지 않는다. -->
+
+    
+</body>
+</html>
