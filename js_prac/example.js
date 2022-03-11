@@ -35,7 +35,7 @@ console.log(B);
 // C = 123;
 
 
-
+/*
 // 선언 후 할당
 let hi;
 hi = "hello";
@@ -54,7 +54,7 @@ console.log(name);
 console.log(age);
 console.log(msg);
 console.log(BIRTHDAY);
-
+*/
 
 
 // using var
