@@ -142,7 +142,7 @@ function recursive(number) {
 // number : 3 -> f(2) + f(1) ==> 1 + 1 = 2
 // number : 2 -> f(1) + f(0) ==> 1 + 0 = 1
 // number : 1 ==> 1
- 
+
 
 
 Result_2 = recursive(5);
