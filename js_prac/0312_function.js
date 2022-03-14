@@ -1,7 +1,7 @@
 // >> 함수 정의
 
 /* 1. 함수 선언식 
- function func (arg1, arg2, ...argN) {
+function func (arg1, arg2, ...argN) {
   expression;
 } */
 function add(x, y) {
