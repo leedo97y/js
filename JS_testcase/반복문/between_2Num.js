@@ -1,17 +1,27 @@
 /*** 2. 두 수 사이 숫자 ***/
 
-// ==> 내 코드
+// ==> 내 코드 (작성 막힘...그래서 정답 코드임)
 
 /* user code */
 function answer(x, y) {
   let result = [];
 
-  // 코드 구현 시작 영역
-  for (let i = 0; i < x, i < y; i++) {
-    result = Array[parseInt(answer())];
-  }
+  // for문 안쓰는 방법
+  // if (x > y) {
+  //   let t = x;
+  //   x = y;
+  //   y = t;
+  // } --> t에 x 담아두기
 
-  // 코드 구현 종료 영역
+  if (x > y) {
+    for (let i = y; i <= x; i++) {
+      result.push(i);
+    }
+  } else {
+    for (let i = x; i <= y; i++) {
+      result.push(i);
+    }
+  }
 
   return result;
 }
