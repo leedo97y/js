@@ -194,3 +194,4 @@ let strr_separator = fruits.join(";");
 console.log(strr_separator); // apple;orange;banana;melon
 let result = strr_separator.split(";");
 console.log(result); // [ 'apple', 'orange', 'banana', 'melon' ]
+// join 메서드를 써서 ;로 나눠주고, split 메서드를 통해 배열형태로 나눠준다.
