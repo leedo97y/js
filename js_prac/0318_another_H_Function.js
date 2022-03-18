@@ -67,3 +67,35 @@ let filter_age = users.filter(function (user) {
   return user.age > 19;
 });
 console.log(filter_age);
+
+// > reduce()
+// = 요소별 함수 수행 누적 결과값 반환 : Array.reduce(fuction(accumulator, item, index, array) {})
+// accumulator :  이전 함수 결과 (initial로 초기값 설정 가능), 나머지는 위와 같음
+let nums_2 = [1, 2, 3, 4, 5];
+let call_count = 0;
+// reduce 내 call count가 얼마나 됐는지 출력해볼 것
+
+console.log("result\tvalue\tindex");
+// 결과를 가시성 있게 보기 위해 tab을 통해 위치를 지정
+let sum = nums_2.reduce(function (accumulator, item, index, array) {
+  console.log(accumulator, "\t\t", item, "\t\t", index);
+  // 탭 두개를 넣는 이유는 위의 구조에 정렬을 하기 위해 넣는 것
+  call_count++;
+  // 호출 시 콜 카운트 증가
+  return accumulator + item;
+  // 반환시, accumulator와 item을 합쳐서 연산에 대한 누적 데이터가 반환되는 함수를 만들어 준다.
+}, 0);
+// initial 없다면 index 1부터 시작
+console.log(call_count);
+console.log(sum);
+
+/*
+result	value	index
+0 		 1 		 0
+1 		 2 		 1
+3 		 3 		 2
+6 		 4 		 3
+10 		 5 		 4
+5
+15
+*/
