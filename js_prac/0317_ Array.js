@@ -154,3 +154,43 @@ for (let key in fruits) {
   console.log(key);
   console.log(fruits[key]);
 }
+
+// > 배열 탐색
+// 1) index 탐색(앞에서 부터) : Array.indexOf(item, from)
+// 2) index 탐색(뒤에서 부터) : Array.lastIndexOf(item, from)
+
+let fruits = ["apple", "orange", "banana", "orange", "melon"];
+
+console.log(fruits.indexOf("orange")); // 1
+console.log(fruits.indexOf("Orange")); // -1 (없다는 뜻임)
+console.log(fruits.indexOf("orange", 2)); // 3 -> 2번째 값부터 찾음
+console.log(fruits.lastIndexOf("orange")); // 3
+console.log(fruits.lastIndexOf("orange", -3)); // 1
+console.log(fruits.lastIndexOf("orange", 0)); // -1 -> apple 말고는 없으니까
+
+// 3) 값 포함 여부 확인 : Array.includes(item, from)
+console.log(fruits.includes("orange")); // 찾는 값이 있는지 없는지 알려준다.
+console.log(fruits.includes("grape"));
+console.log(fruits.includes(0)); // 없으면 false, 있으면 true 반환
+
+// > 배열 변형
+// 1) 배열 정렬 / 반전
+// = 배열 정렬 : Array.sort(), 배열 반전 : Array.reverse()
+let nums = [1, -1, 4, 5, 2, 0];
+console.log(nums.sort()); // 오름차순으로 정렬이 됨 (default)
+console.log(nums.reverse()); // 이미 sort를 써서 정렬된것을 내림차순으로 반전해줌
+
+let fruits = ["apple", "orange", "banana", "melon"];
+console.log(fruits.sort()); // 앞글자 알파벳 위주로 정렬
+console.log(fruits.reverse());
+
+// 2) 배열 변환
+// = 배열 값을 문자열로 변환 : Array.join(separator)
+let fruits = ["apple", "orange", "banana", "melon"];
+let strr = fruits.join();
+console.log(strr); // apple,orange,banana,melon
+
+let strr_separator = fruits.join(";");
+console.log(strr_separator); // apple;orange;banana;melon
+let result = strr_separator.split(";");
+console.log(result); // [ 'apple', 'orange', 'banana', 'melon' ]
