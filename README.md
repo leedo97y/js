@@ -2,7 +2,7 @@
 
 ### JS 기본
 
-6. 기본 용어 <input type = "checkbox">
+6. 기본 용어 <input type="checkbox">
 7. 변수/상수 ⭕
 8. 자료형 ⭕
 9. 객체 타입 ⭕
