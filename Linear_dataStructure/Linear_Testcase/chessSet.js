@@ -4,12 +4,12 @@
 function answer(chess) {
   let result = [];
 
-  // 코드 구현 시작 영역
+  let item = [1, 1, 2, 2, 2, 8]; // 기준 배열을 만들어줌
 
-  // …
-
-  // 코드 구현 종료 영역
-
+  for (let i = 0; i < chess.length; i++) {
+    result.push(item[i] - chess[i]);
+  }
+  
   return result;
 }
 
