@@ -1,17 +1,39 @@
 /* 두 수 최대합 */
 
 /* user code */
+// 내가 쓴 코드
 function answer(nums) {
   let result = [];
+    let ascending_order = function (x, y) {
+      return x - y;
+    }
+    result = nums.sort(ascending_order);
+    result.reverse(ascending_order);
 
-  // 코드 구현 시작 영역
-
-  // …
-
-  // 코드 구현 종료 영역
+    result = result.slice(0, 2);
 
   return result;
 }
+// 해설 코드
+function answer(nums) {
+  let result = [];
+
+  // result[0] ---> 1번째 최대값, result[1] ----> 2번쨰 최대값
+  result = nums[0] > nums[1] ? [nums[0], nums[1]] : [nums[1], nums[0]];
+  for (let i = 2; i < nums.length; i++) {
+    if (nums[i] > result[0]) {
+      result[1] = result[0]; // value shift
+      // result 0 값을 먼저 nums i 에 넣어주면 원래 0에 있던 값을 result 1로 밀어줘야 한다.
+      result[0] = nums[i];
+    } else if (nums[i] > result[1]) {
+      result[1] = nums[i]
+    }
+  }
+
+  return result;
+}
+
+
 
 /* main code */
 let input = [
