@@ -8,6 +8,7 @@ function answer(chess) {
 
   for (let i = 0; i < chess.length; i++) {
     result.push(item[i] - chess[i]);
+    // item의 값에서 chess의 값을 빼준 값을 result에 push 해준다.
   }
   
   return result;
