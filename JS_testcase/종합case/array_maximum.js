@@ -4,16 +4,19 @@
 function answer(arr) {
   let max;
 
+  max = Number.MIN_SAFE_INTEGER;
+  // 음수를 표현할 수 있는 안전한 값을 세팅해줌
   for (let i = 0; i < arr.length; i++) {
-    for (let j = i + 1; i < arr.length; j++) {
-      if (i > j){
-        max.push(i);
-
-      } else if (i < j) {
-        max.push(j);
-      } else return;
+    if (arr[i] > max) {
+      // 만약 i가 max값보다 크다면, max 값에 i를 넣어줘라
+      // 배열을 한번 다 탐색하게 되면 maximum 값만 남게 된다.
+      max = arr[i];
     }
+    
   }
+
+  // max = Math.max.apply(null, arr); --> 바로 나옴 
+  // Math 객체를 쓰면 바로 알 수 있지만, for문을 쓰는 법을 익혀야 하기 때문에 제한을 둠
 
   return max;
 }
