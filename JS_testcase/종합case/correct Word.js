@@ -3,12 +3,15 @@
 /* user code */
 function answer(str) {
   let fix_str = "";
+  // 1. 단어 기준으로 나눈다 -> 공백 기준으로 나눈다.
+  // 2. 단어의 앞 글자를 대문자로 변환시킨다.
+  // 3. 단어들을 다시 문장으로 변환시켜준다.
+  let list = str.split(" ");
+  
+  for (let item of list) {
+    fix_str += item[0].toUpperCase() + item.slice(1) + " ";
+  }
 
-  // 코드 구현 시작 영역
-
-  // …
-
-  // 코드 구현 종료 영역
 
   return fix_str;
 }
