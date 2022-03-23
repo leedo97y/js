@@ -4,11 +4,10 @@
 function answer(str) {
   let spam_flag;
 
-  // 코드 구현 시작 영역
-
-  // …
-
-  // 코드 구현 종료 영역
+  str = str.toLowerCase();
+  spam_flag = str.includes("advert");
+  // includes는 true, false로 결과가 나타난다.
+  
 
   return spam_flag;
 }
