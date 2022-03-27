@@ -40,6 +40,8 @@ LinkedList.prototype.isEmpty = function () {
   // 메서드 내 일치 비교
 } 
 
+// <-----------------------------------!--------------------------------------->
+
 // printNode() : 노드 출력
 LinkedList.prototype.printNode = function (){
   for (let node = this.head; node != null; node = node.next) {
