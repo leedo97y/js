@@ -164,6 +164,6 @@ console.log(ll.removeAt(4)); // 1
 ll.printNode();
 console.log(ll.removeAt()); // 100
 ll.printNode();
-console.log(ll.removeAt(1)); // 
+console.log(ll.removeAt(1)); // 10
 ll.printNode();
-console.log(ll.size()); // 
+console.log(ll.size()); // 2
