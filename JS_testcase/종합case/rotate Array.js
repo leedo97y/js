@@ -7,7 +7,7 @@ function answer(user) {
   
   for(let i = user.length - 1; i >= 0; i--) {
     reverse.push(user[i]);
-    
+    // user.length에서 -1한 값은 맨뒤 (배열 끝) / 양수 일때만 참 / i를 큰값에서 작은 값으로 나열
   }
   
 
