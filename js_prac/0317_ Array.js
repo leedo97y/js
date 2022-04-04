@@ -102,7 +102,7 @@ console.log(ret); // watermelon
 let fruits_1 = ["apple", "orange", "grape"];
 let retr;
 
-// 3) 배열 추가 / 삭제 :
+// 3) 배열 추가 / 삭제 : LIFO (= Last In First Out) = front
 retr = fruits_1.splice(1);
 console.log(retr); // [ 'orange', 'grape' ]
 // 매개변수로 받은 index 이후의 값을 잘라서 return 하는것
