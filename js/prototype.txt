@@ -1,0 +1,108 @@
+프로토타입 : 자바스크립트 기반
+
+[프로토타입이란?]
+
+= 자바스크립트에 기반을 두고 있음
+문자열, 숫자, boolean  --> 전부 뭔가 많이 들어있음 / 래퍼 객체 말고도
+배열, 객체 --> 뭔가 들어있음
+
+---> 프로토타입을 몰라도 코드 작성은 가능하다
+~> 다 내부적으로 prototype을 가지고 있다.
+
+생성자 함수로 인스턴스를 여러개 만드는 예제를 한적 있다.
+* 생성자 함수 
+* 클래스 - 생성자 함수
+~~> 두가지가 있음
+
+
+
+[constructor]
+
+const obj = {};
+const arr = [];
+const func = function () {};
+const str = new String('str');
+
+obj.constructor.name  
+arr.constructor,name  
+func.constructor.name
+str.constructor.name --> string
+
+instanceof 로 확인 가능하다  |  ex) obj instanceof Object; --> true
+==> 이것만 잘 활용해도 boolean 값으로 나온다.
+==> prototype에 접근해서 사용할 수 있다.
+
+
+
+[__proto__]
+
+~> 던더 프로토 : array릐 prototype을 알고싶을때 (브라우저에서 별도로 제공 - 비표준)
+: 프로토타입에 대신 접근할 수 있게 해주는 것
+--> 사용을 안하는게 나음  getPrototypeOf, setPrototypeOf를 사용하는것이 나음
+==== getPrototypeOf , setPrototypeOf는 Object에서 나옴
+
+
+
+
+[프로토타입 체인]
+
+1>  const a = 'outer';
+
+    {
+      console.log(a); ----> outer
+    }
+
+
+2>  [1,2,3] 
+    .sort((a,b) => a - b)
+    .filter((e) => typeof e === 'number')
+    .map((e) => e + 'EA');
+
+
+
+
+
+[프로토타입 확장]
+
+상속 : 부모와 자식 
+부모 => 확장 => 자식
+===> 차라리 class로 확장을 하는 것이 낫다
+** 굳이 prototype으로 할 필요 없음
+
+예제) 
+// Super Class
+function Animal(name, sound) {
+  this.name = name;
+  this.sound = sound;
+}
+
+Animal.prototype.getInfo = function () {
+  return (
+    this.name + 
+    '가(이) ' +
+    this.sound +
+    ' 소리를 낸다.'
+  );
+}
+
+// Sub Class ====> 파생된 class
+function Friends(name, sound) {
+  Animal.call(this, name, sound);
+}
+
+Friends.prototype = Object.create(
+  Animal.prototype,
+);
+Friends.prototype.constructor = Friends;
+
+const dog = new Friends('강아지', '멍멍');
+const cat = new Friends('고양이', '야옹');
+
+dog.getInfo() ---> 강아지가(이) 멍멍 소리를 낸다.
+cat.getInfo() ---> 고양이가(이) 야옹 소리를 낸다.
+
+dog.constructor.name ---> 원래 Animal --> Friends
+cat.constructor.name ---> 원래 Animal --> Friends
+
+dog instanceof Friends; // 함수, 배열 : function, array
+dog instanceof Animal; ---> true / 계층구조도 확인 가능하다 // Object
