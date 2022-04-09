@@ -1,0 +1,126 @@
+[Class란?]
+class 선언은 프로토타입을 기반으로 상속을 사용하여 주어진 이름의 새로운 클래스를 만듬
+==> JS, Java 등 여러가지 언어에 있음 / 표현식, 선언 들다 사용가능
+
+예제) ==> 생성자 함수를 Class로 변환
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+const Lee  = new Person('Lee', 97);
+const dy = new Person('dy', 1024);
+
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+}
+
+
+
+
+[인스턴스란?]
+
+const me = {
+  name: 'Lee',
+  age: 26,
+  location: 'Seoul',
+};
+// 싱글 리터럴 오브젝트 : 인스턴스로 볼 수 있음
+
+const me2 = {
+  name: 'Lee',
+  age: 26,
+  location: 'Seoul',
+};
+
+const you = {
+  name: 'yeon',
+  age: 20,
+  location: 'France',
+};
+
+
+form) 
+function Func() {
+  
+}
+
+const newInstance = new Func()   // 대문자로 시작하는 파스칼 함수
+const newInstance2 = new ...     // new 연산자를 앞에 붙혀서 만들어 주는 함수
+
+
+예제)
+class Classes {}
+
+console.log(me === me2); --> false
+console.log(me === you); --> false
+
+
+
+
+[클래스와 인스턴스]
+function Person(name, age, location) {
+  this.name = name;
+  this.age = age;
+  this.location = location;
+}
+
+*** class 컴포넌트 잘 익혀놓기 !! ***
+class Person {
+  constructor(name, age, location) {
+    this.name = name;
+    this.age = age;
+    this.location = location;
+  }
+  getName() {
+    return this.name + ' 입니다.';
+  }
+}
+
+const me = new Person('Lee', 26, 'England');
+const you = new Person('Yu', 30, 'America');
+
+console.log(me.getName()); ---> Lee 입니다.
+console.log(you.getName()); ---> Yu 입니다.
+
+
+[클래스 확장]
+class Animal {
+  constructor(name, sound) {
+    this.name = name;
+    this.sound = sound;
+  }
+  getInfo() {
+    return (
+      this.name + 
+      '가(이) ' +
+      this.sound +
+      ' 소리를 낸다.'
+    );
+  }
+}
+
+// Sub Class
+class Friends extends Animal {
+  constructor(name, sound) {
+    super(name, sound);
+  }
+}
+// extends를 이용해서 확장 가능
+
+const dog = new Friends('강아지', '멍멍');
+const cat = new Friends('고양이', '야옹');
+
+dog.getInfo(); ---> 강아지가(이) 멍멍 소리를 낸다.
+cat.getInfo(); ---> 고양이가(이) 야옹 소리를 낸다.
+
+dog.constructor.name; ---> Friends
+cat.constructor.name; ---> Friends
+
+dog instanceof Friends; ---> true
+dog instanceof Animal; ---> true
+
+
