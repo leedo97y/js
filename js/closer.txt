@@ -1,0 +1,158 @@
+closer : 클로저
+클로저는 함수와 함수가 선언된 어휘적 환경의 조합이다. 
+클로저를 이해하려면 자바스크립트가 어떻게 변수의 유효범위를 지정하는지를 먼저 이해해야 한다.
+== 이해하는데 어려운 개념
+
+
+예제1)
+function returnX() {
+  return 'X';
+}
+
+const x = returnX()
+
+typeof x -----> String
+
+
+예제2)  함수가 2개 라서 2번 호출 되어야 끝남
+function returnX() {
+  let x = 'X';
+
+  return function returnY() {
+    return x + 'Y';
+  };
+}
+typeof x -----> function
+
+
+
+예제3)  함수가 2개 라서 2번 호출 되어야 끝남
+function outer(x) {
+  let outerVal = x;
+
+  return function inner(y) {
+    let innerVal = y;
+
+    return {
+      x: outerVal,
+      y: innerVal,;
+    };
+  };
+}
+
+
+예제4) 
+====> 1번째 숫자 기억하고 있다가 2번째 숫자 들어올때 더한다음 return
+function sum(num1) {
+  return function(num2) {
+    return num1 + num2;
+  };
+}
+
+===> 이렇게도 표현 가능
+const sum = (num1) => (num2) => num1 + num2;
+
+const sum5 = sum(5);     ===> 숫자 5가 계속 바인딩
+const sum10 = sum(10);   ===> 숫자 10이 계속 바인딩
+
+sum5(10); ===> 15
+sum5(20); ===> 25
+sum5(30); ===> 35
+
+sum10(5); ===> 15
+sum10(10); ===> 20
+sum10(35); ===> 45
+
+
+
+[클로저 은닉화]
+(function () {
+  var a = 'a';
+});
+
+console.log(a); ---> 접근 불가
+===> ()로 한번 감싸져 있기 때문
+
+function a() {
+  let temp = 'a';
+
+  return temp;
+}
+
+const result = a(); ---> 함수 실행하면 간단하게 접근 가능 
+console.log(temp); ----> 접근 불가
+
+
+====> [예제]
+
+function privateData() {
+  let temp = 'a';
+
+  return {
+    value: function () {
+      return temp;
+    },
+    changeValue: function (newVal) {
+      temp = newVal;
+    },
+  };
+}
+
+const private = privateData();
+private.value();                -----> a
+private.changeValue('b');
+private.value();                -----> b
+
+
+====> [counter app 예제]
+
+function CounterApp(initValue) {
+  let countValue = initValue ?? 0;
+
+  return {
+    value: function () {
+      return countValue;
+    },
+    increment: function () {
+      countValue++;
+    },
+    decrement: function () {
+      countValue--;
+    },
+  };
+}
+
+const counter1 = CounterApp(1);  =====> 같은 한 함수에서 나왔지만 결과 값은 완전히 다름
+const counter2 = CounterApp(2);
+
+counter1.value()     ====> 1
+counter2.value()     ====> 2
+
+counter1.increment();
+counter1.increment();
+counter1.increment();
+counter1.increment(); 
+
+counter1.value();    ====> 5
+counter2.value();    ====> 2 (initValue)
+
+=======> this가 없는데도 초기값을 기억해놓고 쓸 수 있음 (closer)
+
+
+[closer 활용사례 : debounce]
+buttonElement.addEvertListener(
+  'click',
+  debounce(handleClick, 500),
+);
+
+====> debounce : 자바스크립트에서 어떤 기능을 실행할때 그 기능이 과하게 실행되지 않게 하는 기법이다.
+(보안스크롱, 클릭 여러번 해야할때- 클릭 지연시
+)
+function debounce(func, timeout = 300) {
+  let timer;
+  return (...arg) => {
+    clearTimeout(timer);
+
+    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+  };
+}
