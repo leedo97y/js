@@ -1,0 +1,411 @@
+비동기와 동기
+: async = 비동기 / sync = 동기
+
+순차적으로 흐르는 것 ===> 동기
+비 순차적으로 흐르는 것 ===> 비동기
+
+[스레드]
+강의를 보는 눈, 강의를 듣는 귀  ===> 2개가 동시에 실행
+but, 자바스크립트는 싱글 스레드 언어
+
+const btn = document.querySelector('button');
+
+===> 클릭이 있다는것 자체만으로 비동기 이다 (이유는 사용자가 버튼을 클릭할 떄마다 실행시켜 주는 것이기 때문)
+
+btn.addEvertListener('click', () => {
+  alert('You clicked me!');
+  // 클릭시, alert 띄워주고 
+
+  let pElem = document.createElement('p');
+  // p 태그를 만들어서
+
+  pElem.textContent = 
+    'This is a newly-added paragraph.';
+  document.body.appendChild(pElem);
+  // p태그에 text 만들어서 body 부분에 삽입
+});
+
+====> 자바스크립트는 싱글 스레드이기 때문에 버튼을 클릭하낟고 해서 바로 문장이 
+삽입되어 나타나지 않는다. 즉, 한번에 한 동작만 실행되기 때문에 alert를 띄워주면, 
+그 작업을 마무리 지어야 다음 동작을 실행시킬 수 있다.
+(예측하기 어려움 + 코드 작성시 의도했던 방향이 나오지 않을 수 있음)
+
+
+
+console.log('시작 ===');                        ==>(1)
+
+setTimeout(() => {
+  console.log('Set Timeout')                    ==>(2)
+}, 1000);
+
+console.log('종료 ===');                         ==>(3)
+
+===> 이렇게 콘솔에 입력시, (1)과 (3)이 먼저 출력되고 (2)가 나중에 출력된다.
+> 이유는 비동기 프로그래밍 + 이벤트 루트 때문
+
+
+
+console.log('1');
+
+setTimeout(() => {
+  console.log('2')
+}, 1000);
+
+console.log('3'); 
+
+=> 1 - 3 - 2 순으로 동작
+==> 비동기 프로그래밍 + 이벤트 루트 때문에 예상대로 동작하지 않음
+
+
+
+
+[Callback] : 함수의 사용권을 위임 / 실행을 위임
+  1 >>
+const isFilter = function (ele, index, array) {
+  console.log(ele); 
+}
+
+[(1, 2, 3)].filter(isFilter);
+
+Array.prototype.filter = function(callback) {
+  for (let i = 0; i < array.length; i++) {
+    callback(array[i], i , array);
+  }
+}
+
+  2 >>
+Element.addEvertListener('click', (e) => console.log(e));
+
+Element.addEvertListener = function(eventType, callback) {
+  if (eventType === 'click') {
+    const clickEventObject = {
+      target: {}, 
+    };
+    callback('clickEventObject');
+  };
+}
+
+
+  /====> 아까 위의 예제를 callback을 이용해서 순서대로 동작 시킬 수 있게 만들어주기
+console.log('1');
+
+function setTimeoutWithCallback((callbackFunc) {
+  setTimeout(() => {
+    console.log('2');
+    callbackFunc();
+  }, 1000);                      ===> 1000 밀리세컨드 후에 실행 (1초 후에)
+}
+  
+setTimeoutWithCallback(() => console.log('3')); 
+
+=> 1 - 2 - 3 순으로 실행
+
+[실행 순서 예제]
+setTimeout(function() {
+  console.log('A')
+
+  setTimeout(function() {
+    console.log('B')
+
+    setTimeout(function() {
+      console.log('C')
+    }, 1000)
+  }, 1000)
+}, 1000)
+
+=> A - B - C 순으로 실행 (콜백에 콜백에 콜백함수)
+
+
+
+[Promise] : 비동기 작업이 맞이할 미래의 완료 또는 실패와 그 결과값을 나타낸다.
+= 객체로 이뤄져 있으며, 비동기 작업을 도와준다.
+= 비동기 작업 종료 이후 성공결과 값, 실패시 처리하기 위한 처리기 연결 위해 존재
+
+* 대기 : 이행하지도, 거부하지도 않은 초기 상태 (초기값)
+* 이행 : 연산이 성공적으로 완료됨 (성공)
+* 거부 : 연산이 실패함 (실패)
+
+## then 메서드 = 점 연산자를 활용하는 부분
+===> .then 을 then 체이닝이라고 하며, 인자를 받아옴. / 성공했을 때의 결과를 나타내준다.
+
+## catch 메서드 = 점 연산자를 활용하는 부분
+===> .catch 는 catch 체이닝이라고 하며, 아래와 같이 쓰인다. / 실패했을 때의 값을 나타내 준다. 
+ex) .catch((error) => {console.error(error)})
+
+<총 정리>
+===> promise는 초기 상태를 pending으로 가지며, 성공하면 .then으로 이어서 return 할 수 있다.
+실패시, error handling 할 수 있고 return 시에는 그 다음 promise pending으로 이어진다.
+
+
+
+[Promise.resolve()]
+const promiseResolve = Promise.resolve('성공')
+const promiseReject = Promise.reject('실패')
+
+promiseResolve.then((resolve) => console.log(resolve))      ====> fulfilled : 성공
+
+
+<then 체이닝 계속 돌기 예제>
+promiseResolve
+.then((resolve) => {
+  console.log('1회 ' + resolve)
+  return promiseResolve;                    ====> 성공 후 다음으로 넘어감
+  })
+  .then((resolve) => {
+  console.log('2회 ' + resolve)
+  return promiseResolve;                    ====> 성공 후 다음으로 넘어감
+  })
+  .then((resolve) => {
+  console.log('3회 ' + resolve)
+  return promiseResolve;                    ====> 성공 후 다음으로 넘어감
+  })
+  .then((resolve) => {
+  console.log('4회 ' + resolve)
+  return promiseResolve;                    ====> 성공 후 다음으로 넘어감
+  });
+
+=> 1회 성공
+   2회 성공
+   3회 성공
+   4회 성공
+
+
+
+
+[Promise.reject()]
+promiseResolve
+.then((resolve) => {
+  console.log('1회 ' + resolve)
+  return promiseResolve;                    ====> 성공 후 다음으로 넘어감
+  })
+  .then((resolve) => {
+  console.log('2회 ' + resolve)
+  return promiseReject;                     ====> 2회까지만 성공하고 이후에 실패
+  })
+  .catch((reject) => {
+  console.log('3회 실패 => ' + reject)
+  return promiseResolve;                    
+  })
+  .then((resolve) => {
+  console.log('4회 ' + resolve)
+  return promiseResolve;                    
+  });
+
+=> 1회 성공
+   2회 성공
+   3회 실패 => 실패
+   4회 성공
+====> catch가 없이 쓰면 2회까지먼 실행되고 끝남
+
+
+
+
+[New Promise]
+console.log('1');
+
+setTimeout(() => {
+  console.log('2')
+}, 1000);
+
+console.log('3'); 
+
+
+# 위의 예제를 Promise로 바꾸기
+const one = Promise.resolve('1');
+const two = Promise.resolve('2');
+const three = Promise.resolve('3');
+
+one
+  .then((oneRes) => {
+    console.log(oneRes);
+
+    return two;
+  })
+  .then ((twoRes) => {
+    console.log(twoRes);
+
+    return three;
+  })
+  .then((threeRes) => {
+    console.log(threeRes);
+  })
+  .finally(() => console.log('END'));    ===> then이든 catch든 finally는 끝에 쓰이며, 실행된다.
+
+=> 1 - 2 - 3 - END  :  깔끔하게 호출됨
+
+
+
+  << 2nd trial >> -------------------------------------------------------------------------------
+
+one
+  .then((oneRes) => {
+    console.log(oneRes);
+
+    return two;
+  })
+  .then ((twoRes) => {
+    setTimeout(() => {
+      console.log(twoRes);
+    }, 2000)
+    
+    return three;
+  })
+  .then((threeRes) => {
+    console.log(threeRes);
+  })
+  .finally(() => console.log('END'));
+
+=> 1 - 3 - END - 2 (2초 후에 동작)  :  예상대로 동작하지 않는다.
+
+
+
+
+  << 3rd trial >> -------------------------------------------------------------------------------
+
+const one = Promise.resolve('1');
+const two = new Promise((resolve) => 
+  setTimeout(() => {
+    resolve('2');
+  }, 2000),
+);
+const three = Promise.resolve('3');
+
+
+one
+  .then((oneRes) => {
+    console.log(oneRes);
+
+    return two;
+  })
+  .then ((twoRes) => {
+    console.log(twoRes);
+
+    return three;
+  })
+  .then((threeRes) => {
+    console.log(threeRes);
+  })
+  .finally(() => console.log('END'));
+
+=> 1 - 2 - 3 - END  :  잘 실행 된다.
+
+
+# 확장
+
+const one = Promise.resolve('1');
+const two = (delay) => 
+  new Promise((resolve) => 
+    setTimeout(() => {
+      resolve('2');
+    }, delay),
+  );
+const three = Promise.resolve('3');
+
+one
+  .then((oneRes) => {
+    console.log(oneRes);
+
+    return two(3000);
+  })
+  .then ((twoRes) => {
+    console.log(twoRes);
+
+    return three;
+  })
+  .then((threeRes) => {
+    console.log(threeRes);
+  })
+  .finally(() => console.log('END'));
+
+=> delay를 넣어서 동작시켜도 잘 실행된다. / then 체이닝으로  비동기를 명시적으로(깔끔하게) 다룰 수 있다.
+
+
+
+  << 앱을 만든다는 가정하에 ex >> ------------------------------------------------------------------
+const starbucks = function(coffeeName) {
+  return new Promise((resolve, reject) => {
+    if (coffeeName === '아메리카노') {
+      resolve('아메리카노 한잔입니다.')
+    } else {
+      reject('아메리카노만 선택 가능합니다.')
+    }
+  });
+};
+
+starbucks('아메리')
+  .then((res) => console.log(res))
+  .catch((rej) => console.log(rej))
+  .finally(() => console.log('감사합니다.'));
+
+// 아메리카노만 선택 가능합니다. 감사합니다.   
+=> 라고 출력됨.
+
+
+starbucks('아메리카노')
+  .then((res) => console.log(res))
+  .catch((rej) => console.log(rej))
+  .finally(() => console.log('감사합니다.'));
+
+// 아메리카노 한잔입니다. 감사합니다.
+=> 라고 출력됨.
+
+=========> fetch를 응용함 - url 넣어주는 것처럼 원하는 값을 넣어주면 됨.
+
+
+
+
+
+[async / await]
+= 함수 앞에 간단히 프리픽스로 선언 / then은 await로 바꾸어서 씀 (then 체이닝과 비슷한 의미)
+
+* await 연산자 : Promise를 기다리기 위해 쓰이며, async function 내부에서만 사용가능하다.
+
+
+  << 예제코드 1 >> ---------------------------------------------------------------------------------
+async function americano() {
+  const result = await starbucks('아메리');
+
+  return result;
+}
+
+americano();     ==> 아메리카노만 선택 가능합니다.
+
+async function americano() {
+  const result = await starbucks('아메리카노');
+
+  return result;
+}
+
+americano();      ==> 아메리카노 한잔입니다. 
+
+
+  << then과 catch를 같이 쓰고 싶을때 >> ----------------------------------------------------------------
+async function americano() {
+  try {
+    const result = await starbucks('아카노');
+  } catch (error) {
+    console.log (error);
+  } finally {
+    console.log ('감사합니다.');
+  }
+  return result;
+}
+
+async function americano(someDrink) {
+  try {
+    const result = await starbucks(someDrink);
+
+    return result;
+  } catch (error) {
+    console.log (error);
+  } finally {
+    console.log ('감사합니다.');
+  }
+}
+
+americano('아메리');                 ==> 아메리카노만 선택 가능합니다. 감사합니다.
+
+americano('아메리카노');              ==> 아메리카노 한잔입니다. 감사합니다.
+
+async / await가 무조건 최고인 것은 아님, 핸디캡이 존재 
+-> then 체이닝은 return을 시켜서 스코프를 이용해야 한다. / 하지만, 이것은 함수 내에서 자유롭게 스코프 이용가능
