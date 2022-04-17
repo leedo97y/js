@@ -1,0 +1,166 @@
+이벤트 다루기
+
+[이벤트 전파]
+
+이벤트 버블링 : 상위 목록 까지 이벤트가 전파됨
+이벤트 캡쳐링 : 하위 목록까지 이벤트가 전파됨
+
+[이벤트 버블링]
+이벤트 버블링은 거품 즉, 둥둥 떠오르는 버블을 생각해보면 쉽다.
+=> event.stopPropagation() 을 이용하면 이 코드가 쓰인 이벤트 객체는 위로 거슬러 올라가지 않는다.
+즉 이 이벤트 객체를 실행하면 상위 객체의 이벤트는 실행되지 않는다.
+
+[이벤트 캡쳐링]
+이벤트 갭쳐링은 상위에서 하위로 내려가는 전파 방식이다. 
+이벤트 캡쳐링 시 이벤트 내용 뒤에 true를 지정해주면 캡쳐링이 가능하다. 
+== 기본값은 false 이다.
+
+[이벤트 위임]
+<ul>
+  <li>노트북</li>
+  <li>모니터</li>
+  <li>책상</li>
+  <li>의자</li>
+  <li>키보드</li>
+  <li>마우스</li>
+</ul>
+
+==> 보통 이벤트를 잘 작성하지 못하는 경우 li에 class를 추가하여 이벤트를 작성하지만,
+많은 보편적인 사람들은 아래와 같이 작성한다.
+
+const items = document.querySelectorAll('li');   
+
+===> li의 갯수가 여러개 이기 때문에 querySelectorAll을 쓴다.
+이러면 items에 NodeList가 들어온다.
+
+items.forEach((item) => item.addEventListner('click', console.log);
+
+===> 그냥 바로 items에 addEventListner를 해버리면 당연히 되지 않는다.
+items에는 모든 li가 담겨 있으므로 li 하나를 클릭하면 당연히 작동이 안됨.
+그렇기 때문에 li 하나를 눌렀을때 작동하게 하기 위해서는 forEach 반복문을 적용시켜준 후에
+화살표 함수를 이용하여 클릭이벤트를 달아준다.
+
+===> 하지만 예를 들어 li의 갯수가 현재 예시로 든 갯수보다 폭발적으로 많을 경우 (N+),
+개발자 입장에서는 반복문을 이용하는 것이 편하지만 컴퓨터 입장에서는 많은 메모리를 소모하기 때문에 좋지 않다.
+이를 방지하기 위해서는 '이벤트 위임'을 이용한다.
+
+const items = document.querySelectorAll('ul'); 
+items.addEventListner('click', console.log);
+
+===> ul을 달아줘도 어차피 이벤트가 아래까지 발생하므로 이를 이용한다.
+즉, 이용할 수 있는 방법은 3가지이다.
+  1. li 태그에 class를 달아주어 여기에 이벤트를 등록하는 방법
+  2. li 태그를 쿼리 셀렉터로 찾아서 반복문 forEach를 이용하여 addEventListner를 해주기
+  3. li 태그가 모여있는 ul 태그를 쿼리 셀렉터로 찾아서 여기에 addEventListner 해주기
+
+
+const items = document.querySelectorAll('ul'); 
+items.addEventListner('click', (event) => {
+  if (event.target.nodeName === 'LI') {
+    alert('LI Click');
+  } else {
+    alert('No LI Click');
+  }
+});
+
+===> 이렇게 해주는 것이 일반적이며, 이러면 li를 클릭하면 LI Click이 뜨며, 
+그렇지 않으면, No LI Click이 뜬다.
+
+[debounce]
+이벤트를 다룰때 자원을 아껴야 하는 경우가 있다.
+입력할때마다 수 많은 API 호출이 생긴다.
+==> 이때 함수를 바로 실행시키면 API 호출이 많이 되므로, 이를 줄여주기 위해서 쓰는 것이
+디바운스 이다.
+
+===> 디바운스는 실행시킬 함수, 지연시킬 밀리세컨드를 지정해주어 함수실행시 일정 시간동안은 지연시켜주는 것이다.
+
+예시 1) 
+let i = 0;
+
+document.querySelector('input').addEventListner('keyup', () => {
+  i = i + 1;
+  console.log(i);
+})
+
+// 실행시킬 함[수, 지연시킬 밀리세컨드
+
+function debounce(callback, wait) {
+  let timeout;
+
+  // 함수가 호출시 매번 반환
+  return fuction (...args) {
+    const context = this;
+
+    clearTimeout(timeout);
+    timeout = setTimeout(() => callback.apply(context, args), wait);
+  };
+}
+
+
+
+=====> timeout 시간을 설정시
+
+let i = 0;
+
+document.querySelector('input').addEventListner(
+  'keyup', 
+  debounce (() => {
+    i = i + 1;
+    console.log(i);
+  }, 1500),                       =====> debounce 함수로 감싼뒤, 밀리세컨드를 조정 (1.5초)
+                                        좌측은 callback, 우측은 wait 하게 한다.
+);
+
+// 이벤트 발생이 많을 때 가장 마지막 이벤트만을 실행시킨다.
+// 실행시킬 함수, 지연시킬 밀리세컨드
+
+function debounce(callback, wait) {
+  let timeout; // 초기 undefined
+
+  // 함수가 호출시 매번 반환
+  return fuction (...args) {
+    const context = this;
+
+    // 타이머를 취소시켜준다.
+    clearTimeout(timeout);
+    timeout = setTimeout(() => callback.apply(context, args), wait);
+  };
+}
+
+
+[throttle]
+과거에는 페이징 방식으로 웹을 구성했지만, 형재는 MORE 버튼을 누르면 더 보여지는 방식이나
+카카오쇼핑 같은 사이트에 적용된 방식 즉, 무한 스크롤이 등장했다.
+
+계속 API 호출을 해주면서 아이템을 가져온다. ==> 스로틀 기법이라고 한다.
+
+// 이벤트 발생이 많을 때 특정 밀리세컨드 동안 이벤트를 차단하고 단 한번만 실행시킨다.
+// 실행시킬 함수, 차단시킬 밀리세컨드
+
+
+let i = 0;
+
+window.addEventListner('scroll', throttle(() => {
+    i = i + 1;
+    console.log(i);
+  }, 1000),
+);
+
+// 이벤트 발생이 많을 때 가장 마지막 이벤트만을 실행시킨다.
+// 실행시킬 함수, 지연시킬 밀리세컨드
+
+function throttle(callback, wait) {
+  let timeout = null;
+
+  // 함수가 호출시 매번 반환
+  return fuction (...args) {
+    const context = this;
+
+    if (!timeout) {
+      timeout = setTimeout(() => {
+        callback.apply(this, args);
+        timeout = null;
+      }, wait);
+    }
+  };
+}
