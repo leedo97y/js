@@ -1,0 +1,34 @@
+var majorityElement = function(nums) {
+    let arr = []
+    let set = new Set
+
+    nums.forEach((element, idx) => {
+        if (set.has(element)) {
+            return
+        } else {
+            set.add(element)
+        }
+        console.log(element);
+        let tempArr = nums.filter( item => item == element)
+
+        if (tempArr.length > arr.length) arr = tempArr
+    });
+
+    return arr[0]
+};
+
+
+// Example 1 : 
+// input: nums = [3, 2, 3]
+// output: 3
+
+
+// Example 2 : 
+// input: nums = [2, 2, 1, 1, 1, 2, 2]
+// output: 2
+
+
+// Constraints : 
+// n == nums.length
+// 1 <= n <= 5 * 104
+// -109 <= nums[i] <= 109
