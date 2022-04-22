@@ -1,0 +1,120 @@
+< 모듈이란? >
+
+독립작인 특성을 가진 기능 단위의 부품
+= 프로그램의 기능을 독립적인 부품으로 분리한 것
+==> 동시에 여러 다른 모듈과 함께 조합하여 재사용될 수 있다. (예 : 모듈 카메라, 핸드폰 부품, 컴퓨터 본체)
+
+-> index.html 에 script 파일로 js 파일을 분리해서 작성 = 모듈화 (코드가 너무 길어져서 분리해서 쓴다.)
+
+
+< CommonJS > 
+
+
+standard library 이다.
+많은 개발자들이 자바스크립트가 브라우저 위에서만 동작하는것이 안타까워 개발을 하기 시작했고
+이제는 더 이상 브라우저 위에서만 동작하지 않게 되었다. = Node.js 가 있다.
+Node.js 에서 모듈을 사용하려면 require 구문을 쓰면된다. = 모듈 단위의 프로그래밍이 가능하게 도와준다.
+: 서버에서 동작, 동기적
+
+예) 
+에시로 코드 1에는 person에 대한 세부사항이 있고,
+코드 2에는 person에 선언하고 이를 동작시키는 함수가 있다고 치자.
+==> 이 상황에서 코드를 제대로 동작시키려면 먼저 코드 1에 exports 를 하고, 코드 2에서는 require 구문을 쓰면 된다.
+
+code1 > person.js
+function Person(name, age, location) {
+  this.name = name;
+  this.age = age;
+  this.location = location;
+
+  this.getName = function () {
+    return this.name + '입니다.';
+  };
+}
+module.exports = Person;  -----------------> 이것만 쓰면 person.js 파일에 있는 것을 내보낼 수 있다.
+
+code2 > test.js
+const Person = require('./person') --------> require 로 가져오는 동시에 Person 이라는 변수에 선언해줄 수 있다.
+
+const me = new Person('Lee', 10, 'England');
+const you = new Person('Lee', 20, 'USA');
+
+me.getName();
+you.getName();
+
+=====> 모듈화 시킨다면 스코프나 즉시실행함수, 클로저 등 겹치지 않게 노력하지 않아도 됨
+
+
+
+
+< AMD >
+
+비동기를 뜻함 = 모듈을 선언하면서 의존하고 있는 모듈을 함께 명시
+: 비동기적으로 의존 모듈을 불러온다. / 브라우저에서도 동작
+---> 지금은 많이 사용되지 않음
+
+=> define 으로 모듈을 가져오고, 함수로 받아서 사용한다.
+예) 
+define(['module'], function(module) {
+  return function() {
+
+  }
+})
+
+
+< UMD >
+= Universal
+
+AMD 와 CommonJS 두 방식 모두 지원 = 클라이언트(AMD), 서버(CommonJS) 어디에서나 작동
+---> 지금은 잘 쓰이지 않음
+
+예)
+(function (root, factory) {
+  if (typeof exports === 'object' && module.exports) {
+    ---> CommonJS
+    module.exports = factory(require('module'))
+  } else if (typeof define === 'function' && define.amd) {
+    ---> AMD
+    define(['module'], function (module) {})
+  } else {
+    ---> 전역 공간
+    root.global = factory(root.module)
+  }
+}(this, fuction (module) {
+  ---> 실제 모듈
+}))
+
+
+< es-module >
+
+자바스크립트 모듈 중 요즘 많이 쓰는 모듈 / 요즘은 기본적으로 모듈기능이 많음 (최신 브라우저에서)
+= import / export 문은 최신 브라우저에서만 동작한다고 알아두는게 좋다.
+
+예) 
+code1 > export.js
+
+export const a = 'a';   ------> 그냥 export 만 넣어주면 끝남
+
+export function hello() {
+  return 'hello';
+}
+
+code2 > import.js
+
+import {a, hello} from './export.js'
+
+console.log(a); // a 출력
+console.log(hello()); // hello 출력
+
+
+하나만 내보내기라면 = 기본 내보내기
+
+export default hello() {
+  return 'hello';
+}
+
+import hello from './export.js'
+==> 이렇게 쓸 수 있다.
+
++ html 파일에서는 script type="module"을 통해 가져오기 가능함
+여기에 type앞에 async 붙이면 비동기로 읽어오는 것이라 예측할 수 없게 된다.
