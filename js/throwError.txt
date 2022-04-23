@@ -1,0 +1,84 @@
+에러 던지기
+function login(id, pw) {
+  if (id === 'zero' && pw === 000) {
+    return true;
+    // 이 경우에만 로그인 성공
+  }
+
+  throw new Error ('로그인 실패');
+  // throw 로 새로운 로그인 에러 객체를 만들어준다. 
+}
+
+
+
+try {
+  login('one', 111);
+} catch (error) {
+  console.error(error);
+  console.error('에러 발생'); // 개발자에게 노출
+  window.alert(error); // 시용자에게 노출
+} finally {
+  console.info('로그인 시도 시간 : ' + new Date());
+}
+
+====> 에러를 던지는 방법 (사용아제게 에러를 보여줄 수 있는 방법)
+
+
+
+## Stack - guessing : 어디서부터 어떻게 코드가 잘못되었는지 알아보는 것 (스택 형태로 볼수 있다.)
+예)
+function x() {
+  c();
+  v();
+  b();
+  x();
+  x();
+  x();
+}
+try {
+  x();
+} catch (e) {
+  console.error(e.stack);
+}
+===> stack 을 사용하면 된다.
+
+
+
+## error 객체를 더 깊게 다뤄야 할때 : Custom Error
+class LoginError extends Error {   ------> 에러객체를 만들고 확장할 수 있다.
+  constructor(message) {
+    super(message);
+
+    this.name = 'Login Error';
+  }
+}
+
+class SomeError extends LoginError {} ------>   코드가 커졌을때 이런식으로 에러 객체를 확장해서 쓸 수 있다.
+
+function login(id, pw) {
+  if (id !== 'a') {
+    throw new Error ('아이디 불일치');
+  }
+  if (id === 'a' && pw === 000) {
+    return true;
+  }
+  
+  throw new Error ('로그인 실패');
+}
+
+
+
+try {
+  login('ac', 'a');
+} catch (e) {
+  console.error(e);
+  if (e instanceog LoginError) {
+    console.log('로그인 에러가 발생했습니다.');
+  } else {
+    console.log('에러가 발생했습니다.');
+  }
+  window.alert(error); // 시용자에게 노출
+} finally {
+  console.info('로그인 시도', new Date());
+}
+
