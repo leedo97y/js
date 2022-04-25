@@ -1,0 +1,8 @@
+# 큐
+= 먼저 넣은 데이터가 먼저 나오는 FIFO 기반의 선형자료구조
+
+## 구현 메서드
+  데이터 전체 획득 / 비어있는지 확인 : Queue.getBuffer(), Queue.isEmpty()
+  추가 / 삭제 : Queue.enqueue(), Queue.dequeue()
+  첫번째 데이터 / 사이즈 / 전체 삭제 : Queue.front(), Queue.size(), Queue.clear()
+
